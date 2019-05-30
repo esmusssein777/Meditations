@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_calendar;
+        return R.layout.activity_main;
     }
 
     @SuppressLint("SetTextI18n")
@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity implements
         int month = mCalendarView.getCurMonth();
 
         Map<String, Calendar> map = new HashMap<>();
-        for (int y = 1997; y < 2082; y++) {
+/*        for (int y = 1997; y < 2082; y++) {
             for (int m = 1; m <= 12; m++) {
                 map.put(getSchemeCalendar(y, m, 1, 0xFF40db25, "假").toString(),
                         getSchemeCalendar(y, m, 1, 0xFF40db25, "假"));
@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity implements
                 map.put(getSchemeCalendar(y, m, 28, 0xFF40db25, "码").toString(),
                         getSchemeCalendar(y, m, 28, 0xFF40db25, "码"));
             }
-        }
+        }*/
         //此方法在巨大的数据量上不影响遍历性能，推荐使用
         mCalendarView.setSchemeDate(map);
     }

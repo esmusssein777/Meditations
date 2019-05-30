@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
 
 /**
  * 基类
- * Created by huanghaibin on 2017/11/16.
+ * Created by ligz
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
