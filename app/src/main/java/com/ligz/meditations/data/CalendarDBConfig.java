@@ -11,6 +11,9 @@ public interface CalendarDBConfig {
 
     String CAL_ID = "id";//主键id
     String CAL_TIME = "time";//时间 HH:mm:ss
+    String CAL_YEAR = "year";
+    String CAL_MONTH = "month";
+    String CAL_DAY = "day";
     /**
      * 评分的细则是
      * [null||""=没有颜色=没有评分]
@@ -28,7 +31,10 @@ public interface CalendarDBConfig {
 
     String CREATE_CALENDAR_TABLE_SQL = "CREATE TABLE " + CALENDAR_TABLE_NAME + "("
             + CAL_ID + "INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + CAL_TIME + "DATETIME NULL DEFAULT NULL, "
+            + CAL_TIME + "INTEGER, "
+            + CAL_YEAR + "INTEGER, "
+            + CAL_MONTH + "INTEGER, "
+            + CAL_DAY + "INTEGER, "
             + CAL_SCORE_FORENOON + "INTEGER, "
             + CAL_SCORE_AFTERNOON + "INTEGER, "
             + CAL_SCORE_NIGHT + "INTEGER, "

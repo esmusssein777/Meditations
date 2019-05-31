@@ -1,17 +1,21 @@
 package com.ligz.meditations.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by ligz
  */
-public class Calendar {
+public class Calendar implements Serializable {
     private int id;
-    private Date time;
     private int scoreForenoon;
     private int scoreAfternoon;
     private int scoreNight;
     private int scoreDay;
+    private int time;
+    private int year;
+    private int month;
+    private int day;
 
     public int getId() {
         return id;
@@ -21,13 +25,6 @@ public class Calendar {
         this.id = id;
     }
 
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
 
     public int getScoreForenoon() {
         return scoreForenoon;
@@ -59,5 +56,37 @@ public class Calendar {
 
     public void setScoreDay(int scoreDay) {
         this.scoreDay = scoreDay;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
     }
 }
