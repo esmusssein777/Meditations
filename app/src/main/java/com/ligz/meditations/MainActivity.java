@@ -6,10 +6,14 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarView;
 import com.ligz.meditations.base.activity.BaseActivity;
+import com.nightonke.boommenu.BoomButtons.HamButton;
+import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
+import com.nightonke.boommenu.BoomMenuButton;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +34,17 @@ public class MainActivity extends BaseActivity implements
     private int mYear;
 
     CalendarView mCalendarView;
+
+    BoomMenuButton forenoon;
+
+    BoomMenuButton afternoon;
+
+    BoomMenuButton night;
+
+    private static int[] menu_title = {R.string.memu_title_complete, R.string.memu_title_not_complete, R.string.memu_title_rest};
+    private static int[] menu_content = {R.string.memu_content_complete, R.string.memu_content_not_complete, R.string.memu_content_rest};
+    private static int[] menu_icon = {R.mipmap.menu_complete};
+    private static int[] menu_color = {R.color.green, R.color.red, R.color.yellow};
 
     public static void show(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
@@ -73,6 +88,29 @@ public class MainActivity extends BaseActivity implements
         mTextMonthDay.setText(mCalendarView.getCurMonth() + "月" + mCalendarView.getCurDay() + "日");
         mTextLunar.setText("今日");
         mTextCurrentDay.setText(String.valueOf(mCalendarView.getCurDay()));
+
+        forenoon = (BoomMenuButton)findViewById(R.id.boom_forenoon);
+        afternoon = (BoomMenuButton)findViewById(R.id.boom_afternoon);
+        night = (BoomMenuButton)findViewById(R.id.boom_night);
+        for (int i = 0; i < forenoon.getPiecePlaceEnum().pieceNumber(); i++) {
+            HamButton.Builder builder = new HamButton.Builder()
+                    .normalImageRes(menu_icon[0])
+                    .normalTextRes(menu_title[i])
+                    .subNormalTextRes(menu_content[i])
+                    .normalColorRes(menu_color[i])
+                    .listener(new OnBMClickListener() {
+                        @Override
+                        public void onBoomButtonClick(int index) {
+                            // When the boom-button corresponding this builder is clicked.
+                            Toast.makeText(MainActivity.this, "Clicked " + index, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+            forenoon.addBuilder(builder);
+            afternoon.addBuilder(builder);
+            night.addBuilder(builder);
+        }
+
+
     }
 
     @Override

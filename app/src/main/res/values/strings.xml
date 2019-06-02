@@ -46,4 +46,11 @@
         <item>Show range</item>
     </string-array>
 
+    <string name="memu_title_complete">完成</string>
+    <string name="memu_title_not_complete">未完成</string>
+    <string name="memu_title_rest">休息</string>
+
+    <string name="memu_content_complete">完成了预定的目标</string>
+    <string name="memu_content_not_complete">没有做完想做的事</string>
+    <string name="memu_content_rest">休息了一会</string>
 </resources>
