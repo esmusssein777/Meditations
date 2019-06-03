@@ -123,60 +123,6 @@ public class MainActivity extends BaseActivity implements
             for (int m = 1; m <= 12; m++) {
                 map.put(getSchemeCalendar(y, m, 1, 0xFF40db25, "假").toString(),
                         getSchemeCalendar(y, m, 1, 0xFF40db25, "假"));
-                map.put(getSchemeCalendar(y, m, 2, 0xFFe69138, "游").toString(),
-                        getSchemeCalendar(y, m, 2, 0xFFe69138, "游"));
-                map.put(getSchemeCalendar(y, m, 3, 0xFFdf1356, "事").toString(),
-                        getSchemeCalendar(y, m, 3, 0xFFdf1356, "事"));
-                map.put(getSchemeCalendar(y, m, 4, 0xFFaacc44, "车").toString(),
-                        getSchemeCalendar(y, m, 4, 0xFFaacc44, "车"));
-                map.put(getSchemeCalendar(y, m, 5, 0xFFbc13f0, "驾").toString(),
-                        getSchemeCalendar(y, m, 5, 0xFFbc13f0, "驾"));
-                map.put(getSchemeCalendar(y, m, 6, 0xFF542261, "记").toString(),
-                        getSchemeCalendar(y, m, 6, 0xFF542261, "记"));
-                map.put(getSchemeCalendar(y, m, 7, 0xFF4a4bd2, "会").toString(),
-                        getSchemeCalendar(y, m, 7, 0xFF4a4bd2, "会"));
-                map.put(getSchemeCalendar(y, m, 8, 0xFFe69138, "车").toString(),
-                        getSchemeCalendar(y, m, 8, 0xFFe69138, "车"));
-                map.put(getSchemeCalendar(y, m, 9, 0xFF542261, "考").toString(),
-                        getSchemeCalendar(y, m, 9, 0xFF542261, "考"));
-                map.put(getSchemeCalendar(y, m, 10, 0xFF87af5a, "记").toString(),
-                        getSchemeCalendar(y, m, 10, 0xFF87af5a, "记"));
-                map.put(getSchemeCalendar(y, m, 11, 0xFF40db25, "会").toString(),
-                        getSchemeCalendar(y, m, 11, 0xFF40db25, "会"));
-                map.put(getSchemeCalendar(y, m, 12, 0xFFcda1af, "游").toString(),
-                        getSchemeCalendar(y, m, 12, 0xFFcda1af, "游"));
-                map.put(getSchemeCalendar(y, m, 13, 0xFF95af1a, "事").toString(),
-                        getSchemeCalendar(y, m, 13, 0xFF95af1a, "事"));
-                map.put(getSchemeCalendar(y, m, 14, 0xFF33aadd, "学").toString(),
-                        getSchemeCalendar(y, m, 14, 0xFF33aadd, "学"));
-                map.put(getSchemeCalendar(y, m, 15, 0xFF1aff1a, "码").toString(),
-                        getSchemeCalendar(y, m, 15, 0xFF1aff1a, "码"));
-                map.put(getSchemeCalendar(y, m, 16, 0xFF22acaf, "驾").toString(),
-                        getSchemeCalendar(y, m, 16, 0xFF22acaf, "驾"));
-                map.put(getSchemeCalendar(y, m, 17, 0xFF99a6fa, "校").toString(),
-                        getSchemeCalendar(y, m, 17, 0xFF99a6fa, "校"));
-                map.put(getSchemeCalendar(y, m, 18, 0xFFe69138, "车").toString(),
-                        getSchemeCalendar(y, m, 18, 0xFFe69138, "车"));
-                map.put(getSchemeCalendar(y, m, 19, 0xFF40db25, "码").toString(),
-                        getSchemeCalendar(y, m, 19, 0xFF40db25, "码"));
-                map.put(getSchemeCalendar(y, m, 20, 0xFFe69138, "火").toString(),
-                        getSchemeCalendar(y, m, 20, 0xFFe69138, "火"));
-                map.put(getSchemeCalendar(y, m, 21, 0xFF40db25, "假").toString(),
-                        getSchemeCalendar(y, m, 21, 0xFF40db25, "假"));
-                map.put(getSchemeCalendar(y, m, 22, 0xFF99a6fa, "记").toString(),
-                        getSchemeCalendar(y, m, 22, 0xFF99a6fa, "记"));
-                map.put(getSchemeCalendar(y, m, 23, 0xFF33aadd, "假").toString(),
-                        getSchemeCalendar(y, m, 23, 0xFF33aadd, "假"));
-                map.put(getSchemeCalendar(y, m, 24, 0xFF40db25, "校").toString(),
-                        getSchemeCalendar(y, m, 24, 0xFF40db25, "校"));
-                map.put(getSchemeCalendar(y, m, 25, 0xFF1aff1a, "假").toString(),
-                        getSchemeCalendar(y, m, 25, 0xFF1aff1a, "假"));
-                map.put(getSchemeCalendar(y, m, 26, 0xFF40db25, "议").toString(),
-                        getSchemeCalendar(y, m, 26, 0xFF40db25, "议"));
-                map.put(getSchemeCalendar(y, m, 27, 0xFF95af1a, "假").toString(),
-                        getSchemeCalendar(y, m, 27, 0xFF95af1a, "假"));
-                map.put(getSchemeCalendar(y, m, 28, 0xFF40db25, "码").toString(),
-                        getSchemeCalendar(y, m, 28, 0xFF40db25, "码"));
             }
         }*/
         //此方法在巨大的数据量上不影响遍历性能，推荐使用
@@ -201,15 +147,6 @@ public class MainActivity extends BaseActivity implements
 /*        switch (v.getId()) {
             case R.id.ll_flyme:
                 CustomActivity.show(this);
-                break;
-            case R.id.ll_simple:
-                SimpleActivity.show(this);
-                break;
-            case R.id.ll_colorful:
-                ColorfulActivity.show(this);
-                break;
-            case R.id.ll_index:
-                IndexActivity.show(this);
                 break;
         }*/
     }
