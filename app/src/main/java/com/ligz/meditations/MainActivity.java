@@ -46,6 +46,8 @@ public class MainActivity extends BaseActivity implements
     private static int[] menu_icon = {R.mipmap.menu_complete};
     private static int[] menu_color = {R.color.green, R.color.red, R.color.yellow};
 
+    private static int[] scheme_color = {0xFF4DAF51, 0xFFEA1F64, 0xFFFF9800};
+
     public static void show(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
     }
@@ -103,6 +105,15 @@ public class MainActivity extends BaseActivity implements
                         public void onBoomButtonClick(int index) {
                             // When the boom-button corresponding this builder is clicked.
                             Toast.makeText(MainActivity.this, "Clicked " + index, Toast.LENGTH_SHORT).show();
+                            int curYear = mCalendarView.getCurYear();
+                            int curMonth = mCalendarView.getCurMonth();
+                            int curDay =  mCalendarView.getCurDay();
+                            int curColor = scheme_color[index];
+                            Map<String, Calendar> map = new HashMap<>();
+                            map.put(getSchemeCalendar(curYear, curMonth, curDay, curColor, "假").toString(),
+                                    getSchemeCalendar(curYear, curMonth, curDay, curColor, "假"));
+                            //此方法在巨大的数据量上不影响遍历性能，推荐使用
+                            mCalendarView.addSchemeDate(map);
                         }
                     });
             forenoon.addBuilder(builder);
