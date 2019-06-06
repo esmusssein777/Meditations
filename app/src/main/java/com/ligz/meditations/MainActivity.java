@@ -15,7 +15,9 @@ import com.nightonke.boommenu.BoomButtons.HamButton;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomMenuButton;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends BaseActivity implements
@@ -103,16 +105,11 @@ public class MainActivity extends BaseActivity implements
                     .listener(new OnBMClickListener() {
                         @Override
                         public void onBoomButtonClick(int index) {
-                            // When the boom-button corresponding this builder is clicked.
-                            Toast.makeText(MainActivity.this, "Clicked " + index, Toast.LENGTH_SHORT).show();
-                            int curYear = mCalendarView.getCurYear();
-                            int curMonth = mCalendarView.getCurMonth();
-                            int curDay =  mCalendarView.getCurDay();
                             int curColor = scheme_color[index];
                             Map<String, Calendar> map = new HashMap<>();
-                            map.put(getSchemeCalendar(curYear, curMonth, curDay, curColor, "假").toString(),
-                                    getSchemeCalendar(curYear, curMonth, curDay, curColor, "假"));
-                            //此方法在巨大的数据量上不影响遍历性能，推荐使用
+                            Calendar calendarView = setSchemeCalendar(curColor, "假");
+                            map.put(calendarView.toString(), calendarView);
+
                             mCalendarView.addSchemeDate(map);
                         }
                     });
@@ -130,26 +127,21 @@ public class MainActivity extends BaseActivity implements
         int month = mCalendarView.getCurMonth();
 
         Map<String, Calendar> map = new HashMap<>();
-/*        for (int y = 1997; y < 2082; y++) {
-            for (int m = 1; m <= 12; m++) {
-                map.put(getSchemeCalendar(y, m, 1, 0xFF40db25, "假").toString(),
-                        getSchemeCalendar(y, m, 1, 0xFF40db25, "假"));
-            }
-        }*/
-        //此方法在巨大的数据量上不影响遍历性能，推荐使用
+        //TODO:从数据库中将数据查询出来放入这里
         mCalendarView.setSchemeDate(map);
     }
 
-    private Calendar getSchemeCalendar(int year, int month, int day, int color, String text) {
-        Calendar calendar = new Calendar();
-        calendar.setYear(year);
-        calendar.setMonth(month);
-        calendar.setDay(day);
+    /**
+     * 添加颜色
+     * @param color
+     * @param text
+     * @return
+     */
+    private Calendar setSchemeCalendar(int color, String text) {
+        Calendar calendar = mCalendarView.getSelectedCalendar();
         calendar.setSchemeColor(color);//如果单独标记颜色、则会使用这个颜色
         calendar.setScheme(text);
-        calendar.addScheme(color, "假");
-        //calendar.addScheme(day%2 == 0 ? 0xFF00CD00 : 0xFFD15FEE, "节");
-        //calendar.addScheme(day%2 == 0 ? 0xFF660000 : 0xFF4169E1, "记");
+        calendar.addScheme(color, "记");
         return calendar;
     }
 
