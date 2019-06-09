@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarView;
 import com.ligz.meditations.base.activity.BaseActivity;
@@ -15,9 +15,7 @@ import com.nightonke.boommenu.BoomButtons.HamButton;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomMenuButton;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends BaseActivity implements
@@ -42,6 +40,7 @@ public class MainActivity extends BaseActivity implements
     BoomMenuButton afternoon;
 
     BoomMenuButton night;
+
 
     private static int[] menu_title = {R.string.memu_title_complete, R.string.memu_title_not_complete, R.string.memu_title_rest};
     private static int[] menu_content = {R.string.memu_content_complete, R.string.memu_content_not_complete, R.string.memu_content_rest};
@@ -116,6 +115,7 @@ public class MainActivity extends BaseActivity implements
             forenoon.addBuilder(builder);
             afternoon.addBuilder(builder);
             night.addBuilder(builder);
+
         }
 
 

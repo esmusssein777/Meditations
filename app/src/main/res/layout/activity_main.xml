@@ -153,7 +153,7 @@
         app:pressedTranslationZ="12dp"
         android:layout_height="wrap_content" />-->
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/multiple_actions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
