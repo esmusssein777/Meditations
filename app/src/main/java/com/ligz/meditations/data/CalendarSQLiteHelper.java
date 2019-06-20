@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * 数据库的操作
  * Created by ligz
  */
-public class CalendarSQLiteHelper  extends SQLiteOpenHelper {
+public class CalendarSQLiteHelper extends SQLiteOpenHelper {
     public CalendarSQLiteHelper(Context context) {
         super(context, CalendarDBConfig.DATABASE_NAME, null, CalendarDBConfig.DATABASE_VERSION);
     }

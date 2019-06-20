@@ -105,7 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#fff"
-            app:calendar_match_parent="true"
+            app:calendar_match_parent="false"
             app:current_month_lunar_text_color="#CFCFCF"
             app:current_month_text_color="#333333"
             app:day_text_size="18sp"
@@ -164,30 +164,13 @@
         android:clickable="true">
 
         <com.nightonke.boommenu.BoomMenuButton
-            android:id="@+id/boom_forenoon"
+            android:id="@+id/boom_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:bmb_buttonEnum="ham"
             app:bmb_piecePlaceEnum="piecePlace_ham_3"
             app:bmb_buttonPlaceEnum="buttonPlace_ham_3" />
 
-        <com.nightonke.boommenu.BoomMenuButton
-            android:id="@+id/boom_afternoon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:bmb_buttonEnum="ham"
-            app:bmb_piecePlaceEnum="piecePlace_ham_3"
-            app:bmb_buttonPlaceEnum="buttonPlace_ham_3"
-            />
-
-        <com.nightonke.boommenu.BoomMenuButton
-            android:id="@+id/boom_night"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:bmb_buttonEnum="ham"
-            app:bmb_piecePlaceEnum="piecePlace_ham_3"
-            app:bmb_buttonPlaceEnum="buttonPlace_ham_3"
-            />
 
 
 

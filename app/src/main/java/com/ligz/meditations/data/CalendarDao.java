@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.ligz.meditations.model.Calendar;
+import com.ligz.meditations.model.CalendarData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,88 +25,96 @@ public class CalendarDao {
         return new CalendarDao(context);
     }
 
-    public int addCalendar(Calendar calendar) {
+    /**
+     * 新增一条记录
+     * @param calendarData
+     * @return
+     */
+    public int addCalendar(CalendarData calendarData) {
         SQLiteDatabase db = cHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(CalendarDBConfig.CAL_TIME, calendar.getTime());
-        values.put(CalendarDBConfig.CAL_YEAR, calendar.getYear());
-        values.put(CalendarDBConfig.CAL_MONTH, calendar.getMonth());
-        values.put(CalendarDBConfig.CAL_DAY, calendar.getDay());
-        values.put(CalendarDBConfig.CAL_SCORE_FORENOON, calendar.getScoreForenoon());
-        values.put(CalendarDBConfig.CAL_SCORE_AFTERNOON, calendar.getScoreAfternoon());
-        values.put(CalendarDBConfig.CAL_SCORE_NIGHT, calendar.getScoreNight());
-        values.put(CalendarDBConfig.CAL_SCORE_DAY, calendar.getScoreDay());
+        values.put(CalendarDBConfig.CAL_TIME, calendarData.getTime());
+        values.put(CalendarDBConfig.CAL_YEAR, calendarData.getYear());
+        values.put(CalendarDBConfig.CAL_MONTH, calendarData.getMonth());
+        values.put(CalendarDBConfig.CAL_DAY, calendarData.getDay());
+        values.put(CalendarDBConfig.CAL_SCORE_DAY, calendarData.getScoreDay());
         long row = db.insert(CalendarDBConfig.CALENDAR_TABLE_NAME, null, values);
         db.close();
         cHelper.close();
         return row > 0 ? 1 : 0;
     }
 
-    public int updateCalendar(Calendar calendar) {
+    /**
+     * 更新一天的记录
+     * @param calendarData
+     * @return
+     */
+    public int updateCalendar(CalendarData calendarData) {
         SQLiteDatabase db = cHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(CalendarDBConfig.CAL_TIME, calendar.getTime());
-        values.put(CalendarDBConfig.CAL_YEAR, calendar.getYear());
-        values.put(CalendarDBConfig.CAL_MONTH, calendar.getMonth());
-        values.put(CalendarDBConfig.CAL_DAY, calendar.getDay());
-        values.put(CalendarDBConfig.CAL_SCORE_FORENOON, calendar.getScoreForenoon());
-        values.put(CalendarDBConfig.CAL_SCORE_AFTERNOON, calendar.getScoreAfternoon());
-        values.put(CalendarDBConfig.CAL_SCORE_NIGHT, calendar.getScoreNight());
-        values.put(CalendarDBConfig.CAL_SCORE_DAY, calendar.getScoreDay());
+        values.put(CalendarDBConfig.CAL_TIME, calendarData.getTime());
+        values.put(CalendarDBConfig.CAL_YEAR, calendarData.getYear());
+        values.put(CalendarDBConfig.CAL_MONTH, calendarData.getMonth());
+        values.put(CalendarDBConfig.CAL_DAY, calendarData.getDay());
+        values.put(CalendarDBConfig.CAL_SCORE_DAY, calendarData.getScoreDay());
         long row = db.update(CalendarDBConfig.CALENDAR_TABLE_NAME, values, null, null);
         db.close();
         cHelper.close();
         return row > 0 ? 1 : 0;
     }
 
-    public Calendar getCalendarByTime(int year, int month, int day) {
-        List<Calendar> calendars = new ArrayList<>();
+    /**
+     * 获取某一天的记录
+     * @param year
+     * @param month
+     * @param day
+     * @return
+     */
+    public CalendarData getCalendarByTime(int year, int month, int day) {
+        List<CalendarData> calendars = new ArrayList<>();
         String[] values = {String.valueOf(year), String.valueOf(month), String.valueOf(day)};
         SQLiteDatabase db = cHelper.getReadableDatabase();
         Cursor cursor = db.query(CalendarDBConfig.CALENDAR_TABLE_NAME, null,
                 String.format("%s=? and %s=? and %s=?", CalendarDBConfig.CAL_YEAR,CalendarDBConfig.CAL_MONTH, CalendarDBConfig.CAL_DAY),
                 values, null, null, null);
-        Calendar calendar = new Calendar();
+        CalendarData calendarData = new CalendarData();
         if (cursor.moveToFirst()) {
-            calendar.setId(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_ID)));
-            calendar.setTime(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_TIME)));
-            calendar.setYear(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_YEAR)));
-            calendar.setMonth(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_MONTH)));
-            calendar.setDay(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_DAY)));
-            calendar.setScoreForenoon(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_SCORE_FORENOON)));
-            calendar.setScoreAfternoon(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_SCORE_AFTERNOON)));
-            calendar.setScoreNight(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_SCORE_NIGHT)));
-            calendar.setScoreDay(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_SCORE_DAY)));
+            calendarData.setId(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_ID)));
+            calendarData.setTime(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_TIME)));
+            calendarData.setYear(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_YEAR)));
+            calendarData.setMonth(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_MONTH)));
+            calendarData.setDay(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_DAY)));
+            calendarData.setScoreDay(cursor.getString(cursor.getColumnIndex(CalendarDBConfig.CAL_SCORE_DAY)));
         }
         cursor.close();
         db.close();
         cHelper.close();
-        return calendar;
+        return calendarData;
     }
 
-    public List<Calendar> getAllCalendar() {
-        List<Calendar> calendars = new ArrayList<>();
+    /**
+     * 获取所有的记录
+     * @return
+     */
+    public List<CalendarData> getAllCalendar() {
+        List<CalendarData> calendars = new ArrayList<>();
         SQLiteDatabase db = cHelper.getReadableDatabase();
         Cursor cursor = db.query(CalendarDBConfig.CALENDAR_TABLE_NAME, null, null, null, null, null, null);
-        Calendar calendar;
+        CalendarData calendarData;
         while (cursor.moveToNext()) {
-            calendar = new Calendar();
-            calendar.setId(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_ID)));
-            calendar.setTime(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_TIME)));
-            calendar.setYear(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_YEAR)));
-            calendar.setMonth(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_MONTH)));
-            calendar.setDay(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_DAY)));
-            calendar.setScoreForenoon(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_SCORE_FORENOON)));
-            calendar.setScoreAfternoon(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_SCORE_AFTERNOON)));
-            calendar.setScoreNight(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_SCORE_NIGHT)));
-            calendar.setScoreDay(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_SCORE_DAY)));
-            calendars.add(calendar);
+            calendarData = new CalendarData();
+            calendarData.setId(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_ID)));
+            calendarData.setTime(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_TIME)));
+            calendarData.setYear(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_YEAR)));
+            calendarData.setMonth(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_MONTH)));
+            calendarData.setDay(cursor.getInt(cursor.getColumnIndex(CalendarDBConfig.CAL_DAY)));
+            calendarData.setScoreDay(cursor.getString(cursor.getColumnIndex(CalendarDBConfig.CAL_SCORE_DAY)));
+            calendars.add(calendarData);
         }
         cursor.close();
         db.close();
         cHelper.close();
         return calendars;
     }
-
 
 }

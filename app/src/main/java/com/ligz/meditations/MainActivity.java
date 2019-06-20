@@ -11,6 +11,8 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarView;
 import com.ligz.meditations.base.activity.BaseActivity;
+import com.ligz.meditations.data.CalendarDao;
+import com.ligz.meditations.model.CalendarData;
 import com.nightonke.boommenu.BoomButtons.HamButton;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomMenuButton;
@@ -35,17 +37,16 @@ public class MainActivity extends BaseActivity implements
 
     CalendarView mCalendarView;
 
-    BoomMenuButton forenoon;
+    BoomMenuButton boomMenuButton;
 
-    BoomMenuButton afternoon;
 
-    BoomMenuButton night;
 
 
     private static int[] menu_title = {R.string.memu_title_complete, R.string.memu_title_not_complete, R.string.memu_title_rest};
-    private static int[] menu_content = {R.string.memu_content_complete, R.string.memu_content_not_complete, R.string.memu_content_rest};
+    private static final int[] menu_content = {R.string.memu_content_complete, R.string.memu_content_not_complete, R.string.memu_content_rest};
     private static int[] menu_icon = {R.mipmap.menu_complete};
-    private static int[] menu_color = {R.color.green, R.color.red, R.color.yellow};
+    private static final int[] menu_color = {R.color.green, R.color.red, R.color.yellow};
+    private static final String[] menu_score = {"1","2","3"};//对用的分数
 
     private static int[] scheme_color = {0xFF4DAF51, 0xFFEA1F64, 0xFFFF9800};
 
@@ -92,10 +93,8 @@ public class MainActivity extends BaseActivity implements
         mTextLunar.setText("今日");
         mTextCurrentDay.setText(String.valueOf(mCalendarView.getCurDay()));
 
-        forenoon = (BoomMenuButton)findViewById(R.id.boom_forenoon);
-        afternoon = (BoomMenuButton)findViewById(R.id.boom_afternoon);
-        night = (BoomMenuButton)findViewById(R.id.boom_night);
-        for (int i = 0; i < forenoon.getPiecePlaceEnum().pieceNumber(); i++) {
+        boomMenuButton = (BoomMenuButton)findViewById(R.id.boom_day);
+        for (int i = 0; i < boomMenuButton.getPiecePlaceEnum().pieceNumber(); i++) {
             HamButton.Builder builder = new HamButton.Builder()
                     .normalImageRes(menu_icon[0])
                     .normalTextRes(menu_title[i])
@@ -105,16 +104,21 @@ public class MainActivity extends BaseActivity implements
                         @Override
                         public void onBoomButtonClick(int index) {
                             int curColor = scheme_color[index];
-                            Map<String, Calendar> map = new HashMap<>();
+                            //将数据添加进去
+                            int res = setDataCalendar(curColor);
+                            if (res > 0) {
+
+                            }
+                            //将颜色添加上
+                            mCalendarView.removeSchemeDate(mCalendarView.getSelectedCalendar());//删除已有的
                             Calendar calendarView = setSchemeCalendar(curColor, "假");
+                            Map<String, Calendar> map = new HashMap<>();
                             map.put(calendarView.toString(), calendarView);
 
                             mCalendarView.addSchemeDate(map);
                         }
                     });
-            forenoon.addBuilder(builder);
-            afternoon.addBuilder(builder);
-            night.addBuilder(builder);
+            boomMenuButton.addBuilder(builder);
 
         }
 
@@ -123,8 +127,6 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     protected void initData() {
-        int year = mCalendarView.getCurYear();
-        int month = mCalendarView.getCurMonth();
 
         Map<String, Calendar> map = new HashMap<>();
         //TODO:从数据库中将数据查询出来放入这里
@@ -138,11 +140,34 @@ public class MainActivity extends BaseActivity implements
      * @return
      */
     private Calendar setSchemeCalendar(int color, String text) {
+
         Calendar calendar = mCalendarView.getSelectedCalendar();
         calendar.setSchemeColor(color);//如果单独标记颜色、则会使用这个颜色
         calendar.setScheme(text);
-        calendar.addScheme(color, "记");
+        CalendarDao dao = CalendarDao.getInstance(this);
+        CalendarData data = dao.getCalendarByTime(calendar.getYear(), calendar.getMonth(), calendar.getDay());
+        String score = data.getScoreDay();
+        for (String s : score.split(",")) {
+            if (!"".equals(s)) {
+                calendar.addScheme(Integer.valueOf(s), "记");
+            }
+        }
+
         return calendar;
+    }
+
+    private int setDataCalendar(int color) {
+        Calendar calendar = mCalendarView.getSelectedCalendar();
+        CalendarDao dao = CalendarDao.getInstance(this);
+        //将数据放入数据库中
+        CalendarData calendarData = new CalendarData();
+        calendarData.setYear(calendar.getYear());
+        calendarData.setMonth(calendar.getMonth());
+        calendarData.setDay(calendar.getDay());
+        String score = String.valueOf(color);
+        calendarData.setScoreDay(score + ",");
+        int result = dao.addCalendar(calendarData);
+        return result;
     }
 
     @Override
