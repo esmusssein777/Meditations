@@ -18,8 +18,12 @@ import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomMenuButton;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+/**
+ * APP的入口类
+ */
 public class MainActivity extends BaseActivity implements
         CalendarView.OnCalendarSelectListener,
         CalendarView.OnYearChangeListener,
@@ -38,9 +42,6 @@ public class MainActivity extends BaseActivity implements
     CalendarView mCalendarView;
 
     BoomMenuButton boomMenuButton;
-
-
-
 
     private static int[] menu_title = {R.string.memu_title_complete, R.string.memu_title_not_complete, R.string.memu_title_rest};
     private static final int[] menu_content = {R.string.memu_content_complete, R.string.memu_content_not_complete, R.string.memu_content_rest};
@@ -104,70 +105,116 @@ public class MainActivity extends BaseActivity implements
                         @Override
                         public void onBoomButtonClick(int index) {
                             int curColor = scheme_color[index];
-                            //将数据添加进去
-                            int res = setDataCalendar(curColor);
-                            if (res > 0) {
-
-                            }
-                            //将颜色添加上
                             mCalendarView.removeSchemeDate(mCalendarView.getSelectedCalendar());//删除已有的
-                            Calendar calendarView = setSchemeCalendar(curColor, "假");
+                            //将数据添加进数据库
+                            int res = setDataCalendar(curColor);
+                            //将颜色添加上
+                            Calendar calendarView = setSchemeCalendar(curColor);
                             Map<String, Calendar> map = new HashMap<>();
                             map.put(calendarView.toString(), calendarView);
-
                             mCalendarView.addSchemeDate(map);
                         }
                     });
             boomMenuButton.addBuilder(builder);
 
         }
-
-
     }
 
+    /**
+     * 初始化日历数据
+     */
     @Override
     protected void initData() {
-
         Map<String, Calendar> map = new HashMap<>();
-        //TODO:从数据库中将数据查询出来放入这里
+        //从数据库中将数据查询出来放入这里
+        CalendarDao dao = CalendarDao.getInstance(this);
+        List<CalendarData> list = dao.getAllCalendar();
+        for (CalendarData calendarData : list) {
+            map.put(getSchemeCalendar(calendarData.getYear(), calendarData.getMonth(), calendarData.getDay(), calendarData.getScoreDay()).toString(),
+                    getSchemeCalendar(calendarData.getYear(), calendarData.getMonth(), calendarData.getDay(), calendarData.getScoreDay()));
+        }
         mCalendarView.setSchemeDate(map);
     }
 
     /**
      * 添加颜色
-     * @param color
-     * @param text
+     * @param color 颜色
      * @return
      */
-    private Calendar setSchemeCalendar(int color, String text) {
-
+    private Calendar setSchemeCalendar(int color) {
         Calendar calendar = mCalendarView.getSelectedCalendar();
-        calendar.setSchemeColor(color);//如果单独标记颜色、则会使用这个颜色
-        calendar.setScheme(text);
+        //查询数据库，将数据放入
         CalendarDao dao = CalendarDao.getInstance(this);
-        CalendarData data = dao.getCalendarByTime(calendar.getYear(), calendar.getMonth(), calendar.getDay());
-        String score = data.getScoreDay();
-        for (String s : score.split(",")) {
-            if (!"".equals(s)) {
-                calendar.addScheme(Integer.valueOf(s), "记");
+        CalendarData calendarData = dao.getCalendarByTime(calendar.getYear(), calendar.getMonth(), calendar.getDay());
+        String colors = calendarData.getScoreDay();
+        if (colors != null && !"".equals(colors)) {
+            String[] colorArray = colors.split(",");
+            if (colorArray != null && colorArray.length > 0) {
+                calendar.setSchemeColor(Integer.valueOf(colorArray[0]));//如果单独标记颜色、则会使用这个颜色
+                calendar.setScheme("记");
+                for (int i = 0; i < colorArray.length; i++) {
+                    calendar.addScheme(Integer.valueOf(colorArray[i]), "记");
+                }
             }
         }
-
         return calendar;
     }
 
+    /**
+     * 将颜色改变存入数据库
+     * @param color
+     * @return
+     */
     private int setDataCalendar(int color) {
+        String score = String.valueOf(color);//记录分数
         Calendar calendar = mCalendarView.getSelectedCalendar();
         CalendarDao dao = CalendarDao.getInstance(this);
+        CalendarData calendarData = dao.getCalendarByTime(calendar.getYear(), calendar.getMonth(), calendar.getDay());
         //将数据放入数据库中
-        CalendarData calendarData = new CalendarData();
-        calendarData.setYear(calendar.getYear());
-        calendarData.setMonth(calendar.getMonth());
-        calendarData.setDay(calendar.getDay());
-        String score = String.valueOf(color);
-        calendarData.setScoreDay(score + ",");
-        int result = dao.addCalendar(calendarData);
+        if (calendarData == null || calendarData.getId() == null) {//数据库中没有就加一条数据
+            calendarData = new CalendarData();
+            calendarData.setYear(calendar.getYear());
+            calendarData.setMonth(calendar.getMonth());
+            calendarData.setDay(calendar.getDay());
+            calendarData.setScoreDay(score);
+            int result = dao.addCalendar(calendarData);
+            return result;
+        }
+        //否则就更新数据
+        String colors = calendarData.getScoreDay();
+        if (colors == null || "".equals(colors)) {
+            calendarData.setScoreDay(score);
+        } else {
+            calendarData.setScoreDay(score + "," + calendarData.getScoreDay());
+        }
+        int result = dao.updateCalendar(calendarData);
         return result;
+    }
+
+    /**
+     * 初始化时渲染页面
+     * @param year
+     * @param month
+     * @param day
+     * @param colors
+     * @return
+     */
+    private Calendar getSchemeCalendar(int year, int month, int day, String colors) {
+        Calendar calendar = new Calendar();
+        calendar.setYear(year);
+        calendar.setMonth(month);
+        calendar.setDay(day);
+        if (colors != null && !"".equals(colors)) {
+            String[] colorArray = colors.split(",");
+            if (colorArray != null && colorArray.length > 0) {
+                calendar.setSchemeColor(Integer.valueOf(colorArray[0]));//如果单独标记颜色、则会使用这个颜色
+                calendar.setScheme("记");
+                for (int i = 0; i < colorArray.length; i++) {
+                    calendar.addScheme(Integer.valueOf(colorArray[i]), "记");
+                }
+            }
+        }
+        return calendar;
     }
 
     @Override

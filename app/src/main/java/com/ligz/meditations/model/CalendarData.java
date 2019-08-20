@@ -4,21 +4,22 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 某一日评分的实体类
  * Created by ligz
  */
 public class CalendarData implements Serializable {
-    private int id;//id
+    private Integer id;//id
     private String scoreDay;//一天的评分，按,分割
-    private int time;//时间
-    private int year;//年
-    private int month;//月
-    private int day;//日
+    private Integer time;//时间
+    private Integer year;//年
+    private Integer month;//月
+    private Integer day;//日
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -30,35 +31,74 @@ public class CalendarData implements Serializable {
         this.scoreDay = scoreDay;
     }
 
-    public int getTime() {
+    public Integer getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(Integer time) {
         this.time = time;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
-    public int getMonth() {
+    public Integer getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(Integer month) {
         this.month = month;
     }
 
-    public int getDay() {
+    public Integer getDay() {
         return day;
     }
 
-    public void setDay(int day) {
+    public void setDay(Integer day) {
         this.day = day;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CalendarData that = (CalendarData) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (scoreDay != null ? !scoreDay.equals(that.scoreDay) : that.scoreDay != null)
+            return false;
+        if (time != null ? !time.equals(that.time) : that.time != null) return false;
+        if (year != null ? !year.equals(that.year) : that.year != null) return false;
+        if (month != null ? !month.equals(that.month) : that.month != null) return false;
+        return day != null ? day.equals(that.day) : that.day == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (scoreDay != null ? scoreDay.hashCode() : 0);
+        result = 31 * result + (time != null ? time.hashCode() : 0);
+        result = 31 * result + (year != null ? year.hashCode() : 0);
+        result = 31 * result + (month != null ? month.hashCode() : 0);
+        result = 31 * result + (day != null ? day.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "CalendarData{" +
+                "id=" + id +
+                ", scoreDay='" + scoreDay + '\'' +
+                ", time=" + time +
+                ", year=" + year +
+                ", month=" + month +
+                ", day=" + day +
+                '}';
     }
 }

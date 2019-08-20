@@ -25,15 +25,15 @@ public interface CalendarDBConfig {
 
     String CALENDAR_TABLE_NAME = "calendar";
 
-    String CREATE_CALENDAR_TABLE_SQL = "CREATE TABLE " + CALENDAR_TABLE_NAME + "("
-            + CAL_ID + "INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + CAL_TIME + "INTEGER, "
-            + CAL_YEAR + "INTEGER, "
-            + CAL_MONTH + "INTEGER, "
-            + CAL_DAY + "INTEGER, "
-            + CAL_SCORE_DAY + "VARCHAR(48)" + ")";
+    String CREATE_CALENDAR_TABLE_SQL = "CREATE TABLE " + CALENDAR_TABLE_NAME + " ("
+            + CAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + CAL_TIME + " INTEGER, "
+            + CAL_YEAR + " INTEGER, "
+            + CAL_MONTH + " INTEGER, "
+            + CAL_DAY + " INTEGER, "
+            + CAL_SCORE_DAY + " VARCHAR(48)" + ")";
 
-    String DROP_CALENDAR_TABLE_SQL = "DROP TABLE" + CALENDAR_TABLE_NAME;
+    String DROP_CALENDAR_TABLE_SQL = "DROP TABLE " + CALENDAR_TABLE_NAME;
 
 
 

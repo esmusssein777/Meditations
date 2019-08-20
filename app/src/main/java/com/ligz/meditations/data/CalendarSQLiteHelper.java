@@ -5,13 +5,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * 数据库的操作
+ * 数据库的初始化
  * Created by ligz
  */
 public class CalendarSQLiteHelper extends SQLiteOpenHelper {
     public CalendarSQLiteHelper(Context context) {
         super(context, CalendarDBConfig.DATABASE_NAME, null, CalendarDBConfig.DATABASE_VERSION);
     }
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CalendarDBConfig.CREATE_CALENDAR_TABLE_SQL);

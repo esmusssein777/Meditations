@@ -57,7 +57,7 @@ public class CalendarDao {
         values.put(CalendarDBConfig.CAL_MONTH, calendarData.getMonth());
         values.put(CalendarDBConfig.CAL_DAY, calendarData.getDay());
         values.put(CalendarDBConfig.CAL_SCORE_DAY, calendarData.getScoreDay());
-        long row = db.update(CalendarDBConfig.CALENDAR_TABLE_NAME, values, null, null);
+        long row = db.update(CalendarDBConfig.CALENDAR_TABLE_NAME, values, String.format("%s=?", CalendarDBConfig.CAL_ID), new String[]{String.valueOf(calendarData.getId())});
         db.close();
         cHelper.close();
         return row > 0 ? 1 : 0;
