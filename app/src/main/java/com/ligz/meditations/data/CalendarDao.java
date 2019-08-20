@@ -117,4 +117,13 @@ public class CalendarDao {
         return calendars;
     }
 
+    public boolean deleteCalendar(int year, int month, int day) {
+        SQLiteDatabase db = cHelper.getWritableDatabase();
+        int row =db.delete(CalendarDBConfig.CALENDAR_TABLE_NAME,
+                String.format("%s=? and %s=? and %s=?", CalendarDBConfig.CAL_YEAR,CalendarDBConfig.CAL_MONTH, CalendarDBConfig.CAL_DAY),
+                new String[]{String.valueOf(year), String.valueOf(month), String.valueOf(day)});
+        db.close();
+        cHelper.close();
+        return row != 0;
+    }
 }

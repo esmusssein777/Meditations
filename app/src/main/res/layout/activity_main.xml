@@ -105,7 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#fff"
-            app:calendar_match_parent="false"
+            app:calendar_match_parent="true"
             app:current_month_lunar_text_color="#CFCFCF"
             app:current_month_text_color="#333333"
             app:day_text_size="18sp"
@@ -138,22 +138,17 @@
 
     </com.haibin.calendarview.CalendarLayout>
 
-<!--    <android.support.design.widget.FloatingActionButton
+    <com.nightonke.boommenu.BoomMenuButton
+        android:id="@+id/boom_day"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:id="@+id/floatbutton"
-        app:elevation="6dp"
-        android:clickable="true"
-        app:borderWidth="0dp"
-        android:backgroundTint="#009ACD"
-        app:rippleColor="#009ACD"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
-        android:src="@mipmap/ic_add"
-        app:pressedTranslationZ="12dp"
-        android:layout_height="wrap_content" />-->
+        app:bmb_buttonEnum="ham"
+        app:bmb_piecePlaceEnum="piecePlace_ham_4"
+        app:bmb_buttonPlaceEnum="buttonPlace_ham_4" />
 
-        <com.getbase.floatingactionbutton.FloatingActionsMenu
+    <!-- 这是多个按钮的版本
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/multiple_actions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -162,7 +157,6 @@
         fab:fab_addButtonColorPressed="#009ACD"
         app:fabSize="normal"
         android:clickable="true">
-
         <com.nightonke.boommenu.BoomMenuButton
             android:id="@+id/boom_day"
             android:layout_width="wrap_content"
@@ -170,9 +164,6 @@
             app:bmb_buttonEnum="ham"
             app:bmb_piecePlaceEnum="piecePlace_ham_3"
             app:bmb_buttonPlaceEnum="buttonPlace_ham_3" />
-
-
-
-
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    -->
 </FrameLayout>

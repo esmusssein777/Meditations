@@ -15,5 +15,6 @@
     <color name="green">#4DAF51</color>
     <color name="red">#EA1F64</color>
     <color name="yellow">#FF9800</color>
+    <color name="gray">#b6b2b2</color>
 
 </resources>

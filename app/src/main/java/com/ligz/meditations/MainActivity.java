@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarView;
 import com.ligz.meditations.base.activity.BaseActivity;
@@ -43,11 +42,10 @@ public class MainActivity extends BaseActivity implements
 
     BoomMenuButton boomMenuButton;
 
-    private static int[] menu_title = {R.string.memu_title_complete, R.string.memu_title_not_complete, R.string.memu_title_rest};
-    private static final int[] menu_content = {R.string.memu_content_complete, R.string.memu_content_not_complete, R.string.memu_content_rest};
-    private static int[] menu_icon = {R.mipmap.menu_complete};
-    private static final int[] menu_color = {R.color.green, R.color.red, R.color.yellow};
-    private static final String[] menu_score = {"1","2","3"};//对用的分数
+    private static int[] menu_title = {R.string.memu_title_complete, R.string.memu_title_not_complete, R.string.memu_title_rest, R.string.memu_title_delete};
+    private static final int[] menu_content = {R.string.memu_content_complete, R.string.memu_content_not_complete, R.string.memu_content_rest, R.string.memu_content_delete};
+    private static int[] menu_icon = {R.mipmap.menu_yes, R.mipmap.menu_no, R.mipmap.menu_play, R.mipmap.menu_delete};
+    private static final int[] menu_color = {R.color.green, R.color.red, R.color.yellow, R.color.gray};
 
     private static int[] scheme_color = {0xFF4DAF51, 0xFFEA1F64, 0xFFFF9800};
 
@@ -97,15 +95,19 @@ public class MainActivity extends BaseActivity implements
         boomMenuButton = (BoomMenuButton)findViewById(R.id.boom_day);
         for (int i = 0; i < boomMenuButton.getPiecePlaceEnum().pieceNumber(); i++) {
             HamButton.Builder builder = new HamButton.Builder()
-                    .normalImageRes(menu_icon[0])
+                    .normalImageRes(menu_icon[i])
                     .normalTextRes(menu_title[i])
                     .subNormalTextRes(menu_content[i])
                     .normalColorRes(menu_color[i])
                     .listener(new OnBMClickListener() {
                         @Override
                         public void onBoomButtonClick(int index) {
-                            int curColor = scheme_color[index];
                             mCalendarView.removeSchemeDate(mCalendarView.getSelectedCalendar());//删除已有的
+                            if (index == 3) {//如果按钮是清空当日记录
+                                deleteDataByTime();
+                                return;
+                            }
+                            int curColor = scheme_color[index];
                             //将数据添加进数据库
                             int res = setDataCalendar(curColor);
                             //将颜色添加上
@@ -215,6 +217,15 @@ public class MainActivity extends BaseActivity implements
             }
         }
         return calendar;
+    }
+
+    /**
+     * 删除当日数据
+     */
+    public void deleteDataByTime() {
+        Calendar calendar = mCalendarView.getSelectedCalendar();
+        CalendarDao dao = CalendarDao.getInstance(this);
+        dao.deleteCalendar(calendar.getYear(), calendar.getMonth(), calendar.getDay());
     }
 
     @Override
